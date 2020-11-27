@@ -174,7 +174,6 @@ public:
             m = n = 0;
             M = nullptr;
         }
-
     }
 //Удаляет все строки кроме первых "num" штук
     friend MATRIX ReduceRow(const MATRIX& _M, int num)
@@ -252,6 +251,7 @@ public:
         for (int i = 0; i < _M.n; i++)
             for (int j = 0; j < _M.m; j++)
                 temp.M[i][j] = _M.M[j][i];
+                
         return temp;
     }
     //Перемножение матриц
@@ -269,6 +269,7 @@ public:
 
         return(temp);
     }
+    //TODO: split subprogramms
     //Решение задачи на нахождение собственных чисел и векторов методом вращений Якоби
     friend MATRIX EigenSolver(const MATRIX& S, MATRIX* EigVal,double eps,int flag)
     {
@@ -445,7 +446,7 @@ public:                            //1-Правые вектора
             switch(choice)
             {
             case 1:
-
+//TODO: subprogramm for making the grid
                 for (int i = 0; i < Row; i++)
                     x1.SetMij(0,i,-PI + 2.0 * i * PI / (Row - 1));
                 for (int i = 0; i < Col; i++)
@@ -554,7 +555,6 @@ public:                            //1-Правые вектора
             invEig.SetMij(i, i, 1.0 / Eig->GetMij(0, i));
         }
             
-
         this->SVD->push_back(M);
         this->SVD->push_back(*Eig);
         this->SVD->push_back(SVD->at(0) * SVD->at(1) * invEig);//Y*U*invEig
@@ -599,7 +599,6 @@ public:                            //1-Правые вектора
         SVD->at(2) = ReduceCol(SVD->at(2), num);
         SVD->at(2).txt("EigenValues.txt");
         M.txt("Result.txt");
-
     }
 
     vector <MATRIX<double> >* GetProduct()
@@ -608,7 +607,6 @@ public:                            //1-Правые вектора
         this->Reset();
         return Result;
     }
-
 };//end of ConcreteBuilder
 
 class Director
@@ -648,10 +646,9 @@ public:
         cin >> Row;
         cout << "Type number of Columns " << endl;
         cin >> Col;
-        cout << "Set error value" << endl;
+        cout << "Set error value" << endl; 
         cin >> eps;
 
-        
         if (Col <= Row)
             k = 1;
         else
@@ -666,7 +663,6 @@ public:
         vector <MATRIX<double> >* SVD = this->builder->GetProduct();
 
         this->builder->ProduceNewData(SVD,k);
-        
     }
 
     void FindEigenVectorsAndValues()
@@ -696,7 +692,6 @@ public:
 
 void Client(Director& director)
 {
-
     int choice=123;
   
     ConcreteBuilder* Builder = new ConcreteBuilder();
@@ -719,7 +714,7 @@ void Client(Director& director)
     delete Builder;
 };
 
-int main()
+int main() 
 {
   //SimpleTimer timer;
 
