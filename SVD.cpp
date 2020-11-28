@@ -26,16 +26,15 @@ double getRandomNumber(int Min, int Max)
 //    chrono::time_point<chrono::steady_clock> end;
 //public:
 //  SimpleTimer()
-    //{
-      //start= chrono::high_resolution_clock::now();
+//{
+//start= chrono::high_resolution_clock::now();
 //  }
 //~SimpleTimer()
-    //{
-      //end= chrono::high_resolution_clock::now();
-        //chrono::duration<float> duration = end - start;
-        //cout << "Duration = " << duration.count() << " s" << endl;
+//{
+//end= chrono::high_resolution_clock::now();
+//chrono::duration<float> duration = end - start;
+//cout << "Duration = " << duration.count() << " s" << endl;
 //  }
-
 
 //};
 // шаблонный класс Матрица
@@ -43,7 +42,7 @@ template <typename T>
 class MATRIX
 {
 private:
-    T** M; // матрица
+    T **M; // матрица
     int m; // количество строк
     int n; // количество столбцов
 
@@ -63,11 +62,11 @@ public:
 
         // Выделить память для матрицы
         // Выделить память для массива указателей
-        M = (T**) new T * [m]; // количество строк, количество указателей
+        M = (T **)new T *[m]; // количество строк, количество указателей
 
         // Выделить память для каждого указателя
         for (int i = 0; i < m; i++)
-            M[i] = (T*)new T[n];
+            M[i] = (T *)new T[n];
 
         // заполнить массив M нулями
         for (int i = 0; i < m; i++)
@@ -76,7 +75,7 @@ public:
     }
 
     // Конструктор копирования
-    MATRIX(const MATRIX& _M)
+    MATRIX(const MATRIX &_M)
     {
         // Создается новый объект для которого виделяется память
         // Копирование данных *this <= _M
@@ -84,10 +83,10 @@ public:
         n = _M.n;
 
         // Выделить память для M
-        M = (T**) new T * [m]; // количество строк, количество указателей
+        M = (T **)new T *[m]; // количество строк, количество указателей
 
         for (int i = 0; i < m; i++)
-            M[i] = (T*) new T[n];
+            M[i] = (T *)new T[n];
 
         // заполнить значениями
         for (int i = 0; i < m; i++)
@@ -123,7 +122,7 @@ public:
     }
 
     // метод, выводящий матрицу
-    void Print(const char* ObjName)
+    void Print(const char *ObjName)
     {
         cout << "Object: " << ObjName << endl;
         for (int i = 0; i < m; i++)
@@ -132,10 +131,11 @@ public:
                 cout << fixed << scientific << setprecision(4) << setw(20) << setfill(' ') << M[i][j] << "\t";
             cout << endl;
         }
-        cout << "---------------------" << endl << endl;
+        cout << "---------------------" << endl
+             << endl;
     }
     // метод печати
-    void txt(const char* filename)
+    void txt(const char *filename)
     {
         ofstream out;
         out.open(filename);
@@ -147,7 +147,7 @@ public:
         }
         out.close();
     }
-//Конструктор, считывающий матрицу из файла txt
+    //Конструктор, считывающий матрицу из файла txt
     MATRIX(int Row, int Col, string filename)
     {
         ifstream in(filename);
@@ -156,11 +156,10 @@ public:
         {
             m = Row;
             n = Col;
-            M = (T**) new T * [m];
+            M = (T **)new T *[m];
 
             for (int i = 0; i < m; i++)
-                M[i] = (T*) new T[n];
-
+                M[i] = (T *)new T[n];
 
             for (int i = 0; i < m; i++)
                 for (int j = 0; j < n; j++)
@@ -175,15 +174,15 @@ public:
             M = nullptr;
         }
     }
-//Удаляет все строки кроме первых "num" штук
-    friend MATRIX ReduceRow(const MATRIX& _M, int num)
+    //Удаляет все строки кроме первых "num" штук
+    friend MATRIX ReduceRow(const MATRIX &_M, int num)
     {
         if (num < 0)
         {
             cout << "Negative Number!" << endl;
         }
 
-        MATRIX Temp( num, _M.n);
+        MATRIX Temp(num, _M.n);
 
         for (int i = 0; i < Temp.m; i++)
             for (int j = 0; j < Temp.n; j++)
@@ -191,7 +190,7 @@ public:
         return Temp;
     }
     //Удаляет все столбцы кроме первых "num" штук
-    friend MATRIX ReduceCol(const MATRIX& _M, int num)
+    friend MATRIX ReduceCol(const MATRIX &_M, int num)
     {
         if (num < 0)
         {
@@ -206,8 +205,8 @@ public:
 
         return Temp;
     }
-    // оператор присваивания 
-    MATRIX operator=(const MATRIX& _M)
+    // оператор присваивания
+    MATRIX operator=(const MATRIX &_M)
     {
         //Старая память освобождается, значения записываются в новую
         if (n > 0)
@@ -222,10 +221,10 @@ public:
         m = _M.m;
         n = _M.n;
 
-        M = (T**) new T * [m]; 
+        M = (T **)new T *[m];
         for (int i = 0; i < m; i++)
-            M[i] = (T*) new T[n];
-        
+            M[i] = (T *)new T[n];
+
         for (int i = 0; i < m; i++)
             for (int j = 0; j < n; j++)
                 M[i][j] = _M.M[i][j];
@@ -245,20 +244,20 @@ public:
             delete[] M;
     }
     //Транспонирование
-    friend MATRIX Transp(const MATRIX& _M)
+    friend MATRIX Transp(const MATRIX &_M)
     {
         MATRIX temp(_M.n, _M.m);
         for (int i = 0; i < _M.n; i++)
             for (int j = 0; j < _M.m; j++)
                 temp.M[i][j] = _M.M[j][i];
-                
+
         return temp;
     }
     //Перемножение матриц
-    friend  MATRIX operator*(const MATRIX& _M, const MATRIX& _P)
+    friend MATRIX operator*(const MATRIX &_M, const MATRIX &_P)
     {
-        if(_M.n!=_P.m)
-           cout<<"Number of Columns of Matrix №1 is not equal to number of Rows of Matrix №2"<<endl;
+        if (_M.n != _P.m)
+            cout << "Number of Columns of Matrix №1 is not equal to number of Rows of Matrix №2" << endl;
 
         MATRIX temp(_M.m, _P.n);
 
@@ -267,92 +266,95 @@ public:
                 for (int k = 0; k < _M.n; k++)
                     temp.M[i][j] += _M.M[i][k] * _P.M[k][j];
 
-        return(temp);
+        return (temp);
     }
-    //TODO: split subprogramms
-    //Решение задачи на нахождение собственных чисел и векторов методом вращений Якоби
-    friend MATRIX EigenSolver(const MATRIX& S, MATRIX* EigVal,double eps,int flag)
+    //Правое вращение Якоби
+    void JacobiRight(const int &i0, const int &j0, const T &phi)
     {
-        double maxVal = 1.001*eps;
+        T a, b;
+        for (int i = 0; i < m; i++)
+        {
+            a = M[i][i0];
+            b = M[i][j0];
+
+            M[i][i0] = a * cos(phi) + b * sin(phi);
+            M[i][j0] = -a * sin(phi) + b * cos(phi);
+        }
+    }
+    //Левое вращение Якоби
+    void JacobiLeft(const int &i0, const int &j0, const T &phi)
+    {
+        T a, b;
+        for (int i = 0; i < m; i++)
+        {
+            a = M[i0][i];
+            b = M[j0][i];
+
+            M[i0][i] = a * cos(phi) + b * sin(phi);
+            M[j0][i] = -a * sin(phi) + b * cos(phi);
+        }
+    }
+    //Нахождение наибольшего элемента выше диагонали
+    void FindMaxAboveDiag(int &i0, int &j0, double &maxVal)
+    {
+        maxVal = 0;
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = i + 1; j < n; j++)
+            {
+                if (abs(M[i][j]) > abs(maxVal))
+                {
+                    maxVal = M[i][j];
+                    i0 = i;
+                    j0 = j;
+                }
+            }
+        }
+    }
+    //Решение задачи на нахождение собственных чисел и векторов методом вращений Якоби
+    friend MATRIX EigenSolver(const MATRIX &S, MATRIX *EigVal, double eps, int flag)
+    {
+        double maxVal = eps;
         T phi;
-        int i,j,r;
-        int i0 = 1;
-        int j0 = 1;
-        int k = 0;
+        int i, j, r;
+        int i0 = 1; //storing row of maxVal
+        int j0 = 1; //storing column of maxVal
+        int k = 0;  // counter
         int N = S.m;
-        MATRIX Temp(S);//матрица собственных чисел(стремится к диагональной)
+        MATRIX Temp(S);      //матрица собственных чисел(стремится к диагональной)
         MATRIX EigVec(N, N); //собственные вектора
         *EigVal = MATRIX(1, N);
-        T a, b;
 
-        //начало цикла while
-        while (abs(maxVal) > eps)
+        for (i = 0; i < N; i++)
+            EigVec.M[i][i] = 1;
+
+        //Цикл выполняется, пока не максимальный внедиагональный элемент не станет меньше заданного значения по модулю
+        while (abs(maxVal) >= eps)
         {
-            maxVal = 0;
-            for (i = 0; i < N; i++)
-            {
-                for (j = i + 1; j < N; j++)
-                {
-                    if (abs(Temp.M[i][j]) > abs(maxVal))
-                    {
-                        maxVal = Temp.M[i][j];
-                        i0 = i;
-                        j0 = j;
-                    }
-                }
-            }
+            Temp.FindMaxAboveDiag(i0, j0, maxVal);
 
             phi = 0.5 * atan((2 * Temp.M[i0][j0]) / (Temp.M[i0][i0] - Temp.M[j0][j0]));
-            
-            if (k == 0)
-            {
-                for (i = 0; i < N; i++)
-                    EigVec.M[i][i] = 1;
 
-                EigVec.SetMij(i0, i0, cos(phi));
-                EigVec.SetMij(i0, j0, -sin(phi));
-                EigVec.SetMij(j0, i0, sin(phi));
-                EigVec.SetMij(j0, j0, cos(phi));
-            }
-            else
-            {
-                for (i = 0; i < N; i++)
-                {
-                    a = EigVec.M[i][i0]; b = EigVec.M[i][j0];
+            EigVec.JacobiRight(i0, j0, phi);
 
-                    EigVec.M[i][i0] = a * cos(phi) + b * sin(phi);
-                    EigVec.M[i][j0] = -a * sin(phi) + b * cos(phi);
-                }
-            }
-                                
-            for (i = 0; i < N; i++)
-            {
-                a = Temp.M[i][i0]; b = Temp.M[i][j0];
+            Temp.JacobiRight(i0, j0, phi);
 
-                Temp.M[i][i0] = a * cos(phi) + b * sin(phi);
-                Temp.M[i][j0] = -a * sin(phi) + b * cos(phi);
-            }
-            for (i = 0; i < N; i++)
-            {
-                a = Temp.M[i0][i]; b = Temp.M[j0][i];
+            Temp.JacobiLeft(i0, j0, phi);
 
-                Temp.M[i0][i] = a * cos(phi) + b * sin(phi);
-                Temp.M[j0][i] = -a * sin(phi) + b * cos(phi);
-            }                                 
             k++;
         }
 
-        if (k == 1)
-            cout << "Matrix is diagonal or its non-diagonal elements' absolute value is less than " << eps <<endl
-            <<"Try changing error value for better precision "<<endl;
+        if (k == 0)
+            cout << "Matrix is diagonal or its non-diagonal elements' absolute value is less than " << eps << endl
+                 << "Try changing error value for better precision " << endl;
 
-        for ( i = 0; i < N; i++)
+        for (i = 0; i < N; i++)
             EigVal->M[0][i] = Temp.M[i][i];
 
         //Пузырьковая cортировка по убыванию
-        for ( i = 1; i < N; ++i)
+        for (i = 1; i < N; ++i)
         {
-            for ( r = 0; r < N - i; r++)
+            for (r = 0; r < N - i; r++)
             {
                 if (EigVal->M[0][r] < EigVal->M[0][r + 1])
                 {
@@ -361,7 +363,7 @@ public:
                     EigVal->M[0][r] = EigVal->M[0][r + 1];
                     EigVal->M[0][r + 1] = temp;
 
-                    for ( j = 0; j < N; j++)
+                    for (j = 0; j < N; j++)
                     {
                         T temp = EigVec.M[j][r];
                         EigVec.M[j][r] = EigVec.M[j][r + 1];
@@ -374,31 +376,31 @@ public:
         {
             cout << "Number of iterations k = " << k << endl;
         }
-        
+
         return EigVec;
     }
 
-};// конец класса MATRIX
+}; // конец класса MATRIX
 
 //Интерфейс Строителя
 class Builder
 {
 public:
-    virtual ~Builder() {};
-    virtual void ProduceY( int, int, int, int,string) = 0;
-    virtual void ProduceEigenVecAndValues(MATRIX<double>,double) = 0;
-    virtual void ProduceSVD(double,int) = 0;
-    virtual void ProduceNewData(vector <MATRIX<double> >* ,int) = 0;
-    virtual vector <MATRIX<double> >* GetProduct() = 0;
+    virtual ~Builder(){};
+    virtual void ProduceY(int, int, int, int, string) = 0;
+    virtual void ProduceEigenVecAndValues(MATRIX<double>, double) = 0;
+    virtual void ProduceSVD(double, int) = 0;
+    virtual void ProduceNewData(vector<MATRIX<double>> *, int) = 0;
+    virtual vector<MATRIX<double>> *GetProduct() = 0;
 };
 //Конкретный строитель
 class ConcreteBuilder : public Builder
 {
 private:
-    vector <MATRIX<double> >* SVD; //0-Исходная матрица
-public:                            //1-Правые вектора
-    ConcreteBuilder()              //2-Собственные числа
-    {                              //3-Левые вектора
+    vector<MATRIX<double>> *SVD; //0-Исходная матрица
+public:                          //1-Правые вектора
+    ConcreteBuilder()            //2-Собственные числа
+    {                            //3-Левые вектора
         this->Reset();
     }
     ~ConcreteBuilder()
@@ -408,10 +410,10 @@ public:                            //1-Правые вектора
 
     void Reset()
     {
-        this->SVD = new vector<MATRIX<double> >();
+        this->SVD = new vector<MATRIX<double>>();
     }
     //Создание матрицы для дальнейшей работы
-    void ProduceY( int Row, int Col, int k, int iftest, string filename)  
+    void ProduceY(int Row, int Col, int k, int iftest, string filename)
     {
         ofstream out;
         srand(static_cast<unsigned int>(time(0)));
@@ -443,12 +445,12 @@ public:                            //1-Правые вектора
                 if (choice != 1 && choice != 2 && choice != 3 && choice != 4)
                     cout << "Such choice does not exist. Try again!" << endl;
             }
-            switch(choice)
+            switch (choice)
             {
             case 1:
-//TODO: subprogramm for making the grid
+                //TODO: subprogramm for making the grid
                 for (int i = 0; i < Row; i++)
-                    x1.SetMij(0,i,-PI + 2.0 * i * PI / (Row - 1));
+                    x1.SetMij(0, i, -PI + 2.0 * i * PI / (Row - 1));
                 for (int i = 0; i < Col; i++)
                     x2.SetMij(0, i, -PI + 2.0 * i * PI / (Col - 1));
 
@@ -456,10 +458,10 @@ public:                            //1-Правые вектора
                 cin >> m >> n;
                 for (int i = 0; i < Row; i++)
                     for (int j = 0; j < Col; j++)
-                        M.SetMij(i, j, 1.0 / sqrt(Row * Col) *cos(m*x1.GetMij(0,i) + n*x2.GetMij(0,j)));
+                        M.SetMij(i, j, 1.0 / sqrt(Row * Col) * cos(m * x1.GetMij(0, i) + n * x2.GetMij(0, j)));
                 break;
             case 2:
-                
+
                 for (int i = 0; i < Row; i++)
                     x1.SetMij(0, i, -1.0 + 2.0 * i * 1.0 / (Row - 1));
                 for (int i = 0; i < Col; i++)
@@ -467,78 +469,80 @@ public:                            //1-Правые вектора
 
                 for (int i = 0; i < Row; i++)
                     for (int j = 0; j < Col; j++)
-                        M.SetMij(i, j, 1 / sqrt(Row * Col) * exp(-pow(x1.GetMij(0,i) + x2.GetMij(0,j), 2)));
+                        M.SetMij(i, j, 1 / sqrt(Row * Col) * exp(-pow(x1.GetMij(0, i) + x2.GetMij(0, j), 2)));
                 break;
             case 3:
-                
+
                 for (int i = 0; i < Row; i++)
                     x1.SetMij(0, i, -PI + 2.0 * i * PI / (Row - 1));
                 for (int i = 0; i < Col; i++)
                     x2.SetMij(0, i, -PI + 2.0 * i * PI / (Col - 1));
 
                 cout << "Type m , n and phase noise amplitude" << endl;
-                cin >> m >> n>> noiseamp;
+                cin >> m >> n >> noiseamp;
                 for (int i = 0; i < Row; i++)
                     for (int j = 0; j < Col; j++)
-                        M.SetMij(i, j, 1.0 / sqrt(Row * Col) * cos(m * x1.GetMij(0, i) + n * x2.GetMij(0, j) + noiseamp*getRandomNumber(-1,1)*PI));
+                        M.SetMij(i, j, 1.0 / sqrt(Row * Col) * cos(m * x1.GetMij(0, i) + n * x2.GetMij(0, j) + noiseamp * getRandomNumber(-1, 1) * PI));
                 break;
             case 4:
-                
+
                 cout << "Type noise amplitude" << endl;
                 cin >> noiseamp;
                 for (int i = 0; i < Row; i++)
-                    x1.SetMij(0, i, -1.0 + 2.0 * i * 1.0 / (Row - 1 ));
+                    x1.SetMij(0, i, -1.0 + 2.0 * i * 1.0 / (Row - 1));
                 for (int i = 0; i < Col; i++)
                     x2.SetMij(0, i, -1.0 + 2.0 * i * 1.0 / (Col - 1));
 
                 for (int i = 0; i < Row; i++)
                     for (int j = 0; j < Col; j++)
-                        M.SetMij(i, j, (1+noiseamp*getRandomNumber(-1, 1)) / sqrt(Row * Col) * exp(-pow(x1.GetMij(0, i) + x2.GetMij(0, j), 2)));
+                        M.SetMij(i, j, (1 + noiseamp * getRandomNumber(-1, 1)) / sqrt(Row * Col) * exp(-pow(x1.GetMij(0, i) + x2.GetMij(0, j), 2)));
                 break;
             }
             M.txt("Function.txt");
         }
-        
+
         if (k == 1)
             this->SVD->push_back(M);
         else
             this->SVD->push_back(Transp(M));
     }
     //Нахождение собственных векторов
-    void ProduceEigenVecAndValues(MATRIX<double> Y,double eps)
+    void ProduceEigenVecAndValues(MATRIX<double> Y, double eps)
     {
         ofstream out;
-        MATRIX<double>* Eig = new MATRIX<double>;
+        MATRIX<double> *Eig = new MATRIX<double>;
         MATRIX<double> M(Y.Getm(), Y.Getn());
-        M = EigenSolver(Y, Eig,eps,1);
-        M.txt ("Result.txt");
-        Eig->txt("Eigenvalues.txt");
+        M = EigenSolver(Y, Eig, eps, 1);
+        M.txt("Result.txt");
+        Eig->txt("EigenValues.txt");
         this->SVD->push_back(M);
         this->SVD->push_back(*Eig);
 
         delete Eig;
     }
 
-    void ProduceSVD(double eps,int flag)
+    void ProduceSVD(double eps, int flag)
     {
         ofstream out;
         int Col = SVD->at(0).Getn();
-        int reduct = Col ;
-        MATRIX<double>* Eig = new MATRIX<double>;
+        int reduct = Col;
+        MATRIX<double> *Eig = new MATRIX<double>;
         MATRIX<double> M(Col, Col);
 
-        M = EigenSolver(Transp(SVD->at(0)) * (SVD->at(0)), Eig,eps,flag);
+        M = EigenSolver(Transp(SVD->at(0)) * (SVD->at(0)), Eig, eps, flag);
 
         for (int i = 0; i < Eig->Getn(); i++)
         {
             if (abs(Eig->GetMij(0, i)) < 1E-15)
             {
                 reduct = i;
-		cout << endl<<endl;
-		cout <<"--------------------WARNING----------------------------"<<endl;
-                cout << "Machine zero eigenvalues were found"<<endl;
-		cout <<"Such eigenvalues and their eigenvectors were removed" << endl;
-		cout << "Resulting number of eigenvalues is "<< i <<endl<<endl;
+                cout << endl
+                     << endl;
+                cout << "--------------------WARNING----------------------------" << endl;
+                cout << "Machine zero eigenvalues were found" << endl;
+                cout << "Such eigenvalues and their eigenvectors were removed" << endl;
+                cout << "Resulting number of eigenvalues is " << i << endl
+                     << endl;
                 break;
             }
         }
@@ -554,30 +558,30 @@ public:                            //1-Правые вектора
             Eig->SetMij(0, i, sqrt(Eig->GetMij(0, i)));
             invEig.SetMij(i, i, 1.0 / Eig->GetMij(0, i));
         }
-            
+
         this->SVD->push_back(M);
         this->SVD->push_back(*Eig);
-        this->SVD->push_back(SVD->at(0) * SVD->at(1) * invEig);//Y*U*invEig
-       
+        this->SVD->push_back(SVD->at(0) * SVD->at(1) * invEig); //Y*U*invEig
+
         delete Eig;
     }
 
-    void ProduceNewData(vector <MATRIX<double> >* SVD,int k)
+    void ProduceNewData(vector<MATRIX<double>> *SVD, int k)
     {
         int num;
-        MATRIX<double>M(SVD->at(3).Getn(), SVD->at(1).Getm());
+        MATRIX<double> M(SVD->at(3).Getn(), SVD->at(1).Getm());
         MATRIX<double> S(SVD->at(2).Getn(), SVD->at(2).Getn());
 
         cout << "Resulting Eigenvalues are :" << endl;
-        for(int i = 0; i < S.Getm(); i++)
+        for (int i = 0; i < S.Getm(); i++)
         {
             S.SetMij(i, i, SVD->at(2).GetMij(0, i));
-            cout << i + 1 << " ----->" << fixed << scientific << setprecision(4) << setw(15) << setfill(' ')<< S.GetMij(i, i) << endl;
+            cout << i + 1 << " ----->" << fixed << scientific << setprecision(4) << setw(15) << setfill(' ') << S.GetMij(i, i) << endl;
         }
-           
+
         cout << "Type number of members you want to keep" << endl;
         cin >> num;
-        
+
         S = ReduceCol(S, num);
         S = ReduceRow(S, num);
         SVD->at(1) = ReduceCol(SVD->at(1), num);
@@ -595,40 +599,41 @@ public:                            //1-Правые вектора
             SVD->at(1).txt("LeftVectors.txt");
             SVD->at(3).txt("RightVectors.txt");
         }
-            
+
         SVD->at(2) = ReduceCol(SVD->at(2), num);
         SVD->at(2).txt("EigenValues.txt");
         M.txt("Result.txt");
     }
 
-    vector <MATRIX<double> >* GetProduct()
+    vector<MATRIX<double>> *GetProduct()
     {
-        vector <MATRIX<double> >* Result = this->SVD;
+        vector<MATRIX<double>> *Result = this->SVD;
         this->Reset();
         return Result;
     }
-};//end of ConcreteBuilder
+}; //end of ConcreteBuilder
 
 class Director
 {
 private:
-    Builder* builder;
+    Builder *builder;
+
 public:
-    void set_builder(Builder* builder)
+    void set_builder(Builder *builder)
     {
         this->builder = builder;
     }
 
     void Build_SVD()
     {
-        int Row, Col,k,iftest;
+        int Row, Col, k, iftest;
         string filename;
         double eps;
         iftest = 123;
         cout << "Type 0 if you want to have a run with a test function " << endl;
         cout << "Type 1 if you want to read data from a file " << endl;
 
-        while (iftest != 0 && iftest != 1 )
+        while (iftest != 0 && iftest != 1)
         {
             cin >> iftest;
             if (iftest != 0 && iftest != 1)
@@ -641,12 +646,12 @@ public:
             cout << "Example: 123.txt" << endl;
             cin >> filename;
         }
-        
+
         cout << "Type number of Rows " << endl;
         cin >> Row;
         cout << "Type number of Columns " << endl;
         cin >> Col;
-        cout << "Set error value" << endl; 
+        cout << "Set error value" << endl;
         cin >> eps;
 
         if (Col <= Row)
@@ -654,15 +659,16 @@ public:
         else
             k = 0;
 
-        this->builder->ProduceY(Row, Col,k,iftest, filename);
+        this->builder->ProduceY(Row, Col, k, iftest, filename);
 
-        cout << "Waiting for results..." << endl << endl;
+        cout << "Waiting for results..." << endl
+             << endl;
 
-        this->builder->ProduceSVD(eps,1);
-       
-        vector <MATRIX<double> >* SVD = this->builder->GetProduct();
+        this->builder->ProduceSVD(eps, 1);
 
-        this->builder->ProduceNewData(SVD,k);
+        vector<MATRIX<double>> *SVD = this->builder->GetProduct();
+
+        this->builder->ProduceNewData(SVD, k);
     }
 
     void FindEigenVectorsAndValues()
@@ -672,53 +678,52 @@ public:
         double eps;
         cout << "Type filename (example: 123.txt)" << endl;
         cin >> filename;
-        cout << "Type number of Rows" << endl;
+        cout << "Type number of Rows or Columns" << endl;
         cin >> Row;
-        cout << "Type number of Columns" << endl;
-        cin >> Col;
+        Col = Row;
         cout << "Type error value" << endl;
         cin >> eps;
 
         MATRIX<double> Y(Row, Col, filename);
 
         this->builder->ProduceEigenVecAndValues(Y, eps);
-       
-        vector <MATRIX<double> >* SVD = this->builder->GetProduct();
+
+        vector<MATRIX<double>> *SVD = this->builder->GetProduct();
 
         SVD->at(0).txt("Result.txt");
         SVD->at(1).txt("EigenValues.txt");
     }
 };
 
-void Client(Director& director)
+void Client(Director &director)
 {
-    int choice=123;
-  
-    ConcreteBuilder* Builder = new ConcreteBuilder();
+    int choice = 123;
+
+    ConcreteBuilder *Builder = new ConcreteBuilder();
     director.set_builder(Builder);
 
-    cout<<"Type 0 if you want to solve eigenvalue problem for a symmetric matrix"<<endl;
-    cout<<"Type 1 if you want to perform Singular Value Decomposition (SVD)"<<endl;
+    cout << "Type 0 if you want to solve eigenvalue problem for a symmetric matrix" << endl;
+    cout << "Type 1 if you want to perform Singular Value Decomposition (SVD)" << endl;
 
-    while(choice!=0 && choice!=1)
+    while (choice != 0 && choice != 1)
     {
-      cin >> choice;
-      if(choice!=0 && choice!=1)
-	    cout<<"Such choice does not exist. Try again!"<<endl;
+        cin >> choice;
+        if (choice != 0 && choice != 1)
+            cout << "Such choice does not exist. Try again!" << endl;
     }
-    if(choice==0)
-      director.FindEigenVectorsAndValues();
-    if(choice==1)
-      director.Build_SVD();
+    if (choice == 0)
+        director.FindEigenVectorsAndValues();
+    if (choice == 1)
+        director.Build_SVD();
 
     delete Builder;
 };
 
-int main() 
+int main()
 {
-  //SimpleTimer timer;
+    //SimpleTimer timer;
 
-    Director* director = new Director();
+    Director *director = new Director();
 
     Client(*director);
 
